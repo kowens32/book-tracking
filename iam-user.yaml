@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  BookLibraryDeployUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: book-library-deployer
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      Policies:
+        - PolicyName: BookLibraryDeploymentPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                  - dynamodb:*
+                  - lambda:*
+                  - apigateway:*
+                  - cognito-idp:*
+                  - iam:PassRole
+                  - cloudformation:*
+                Resource: "*"
+
+Outputs:
+  IAMUserArn:
+    Value: !Ref BookLibraryDeployUser
+    Description: "IAM User ARN for deploying the book library stack"
