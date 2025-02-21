@@ -5,10 +5,29 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class BookLibraryStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
+
+        // IAM user with permissions 
+        const bookLibraryUser = new iam.User(this, 'BookLibraryUser');
+        const policy = new iam.Policy(this, 'BookLibraryPolicy', {
+            statements: [
+                new iam.PolicyStatement({
+                    actions: [
+                        's3:*',
+                        'dynamodb:*',
+                        'lambda:*',
+                        'apigateway:*',
+                        'cognito-idp:*'
+                    ],
+                    resources: ['*']
+                })
+                      ]
+                });
+bookLibraryUser.attachInlinePolicy(policy);
     // S3 bucket for storing book images 
     const bookImagesBucket = new s3.Bucket(this, 'BookImagesBucket', {
         removalPolicy: cdk.RemovalPolicy.DESTROY, 
