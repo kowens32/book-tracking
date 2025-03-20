@@ -66,7 +66,7 @@ bookLibraryUser.attachInlinePolicy(policy);
     const api = new apigateway.RestApi(this, 'BookLibraryApi', {
         restApiName: 'Book Library Service',
     });
-        const booksResource = api.root.addResource('books');
+        const booksResource = api.root.addResource('books');;
         booksResource.addMethod('POST', new apigateway.LambdaIntegration(bookProcessorLambda));
     }
 
