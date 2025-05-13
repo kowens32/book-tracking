@@ -2,22 +2,64 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
+  const [email, setEmail] = useState('');
   const [bookTitle, setBookTitle] = useState('');
-//test
+  const [loanerName, setLoanerName] = useState('');
+  const [loanDate, setLoanDate] = useState('');
 
-  const addBook = async () => {
-    await axios.post('https://vhrsabxky8.execute-api.us-east-1.amazonaws.com/prod', {
-      userID: '12345',
-      bookID: '67890',
-      title: bookTitle 
-    }); 
+  const handleSubmit = async () => {
+    const data = {
+      email,
+      bookTitle,
+      loanerName,
+      loanDate,
+    };
+
+    try {
+      await axios.post('https://your-api-endpoint.amazonaws.com/prod/books', data);
+      alert('Book saved successfully!');
+    } catch (error) {
+      console.error('Error saving book:', error);
+      alert('Failed to save book.');
+    }
   };
 
   return (
     <div>
-      <h1>Book Library</h1>
-      <input type="text" value={bookTitle} onChange={(e) => setBookTitle(e.target.value)} placeholder='Enter Book Title' />
-      <button onClick={addBook}>Add Book</button>
+      <h1>Book Tracker</h1>
+
+      <input
+        type="email"
+        placeholder="Your Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br />
+
+      <input
+        type="text"
+        placeholder="Book Title"
+        value={bookTitle}
+        onChange={(e) => setBookTitle(e.target.value)}
+      />
+      <br />
+
+      <input
+        type="text"
+        placeholder="Loaner Name"
+        value={loanerName}
+        onChange={(e) => setLoanerName(e.target.value)}
+      />
+      <br />
+
+      <input
+        type="date"
+        value={loanDate}
+        onChange={(e) => setLoanDate(e.target.value)}
+      />
+      <br />
+
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 }
