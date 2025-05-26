@@ -66,8 +66,19 @@ bookLibraryUser.attachInlinePolicy(policy);
     const api = new apigateway.RestApi(this, 'BookLibraryApi', {
         restApiName: 'Book Library Service',
     });
-        const booksResource = api.root.addResource('books');
-        booksResource.addMethod('POST', new apigateway.LambdaIntegration(bookProcessorLambda));
+    const booksResource = api.root.addResource('books');
+
+    // Add POST method
+    booksResource.addMethod('POST', new apigateway.LambdaIntegration(bookProcessorLambda), {
+      authorizationType: apigateway.AuthorizationType.NONE,
+    });
+    
+    // Add CORS Preflight 
+    booksResource.addCorsPreflight({
+      allowOrigins: apigateway.Cors.ALL_ORIGINS, // or use ['http://localhost:3000'] in dev
+      allowMethods: ['POST', 'OPTIONS'],
+      allowHeaders: ['Content-Type'],
+    });
     }
 
 }
