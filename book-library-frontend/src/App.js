@@ -3,17 +3,18 @@ import axios from 'axios';
 
 function App() {
   const [email, setEmail] = useState('');
-  const [bookTitle, setBookTitle] = useState('');
+  const [title, setBookTitle] = useState('');
   const [loanerName, setLoanerName] = useState('');
   const [loanDate, setLoanDate] = useState('');
 
   const handleSubmit = async () => {
     const data = {
       email,
-      bookTitle,
+      title, 
       loanerName,
       loanDate,
     };
+    
 
     try {
       await axios.post('https://vhrsabxky8.execute-api.us-east-1.amazonaws.com/prod/books', data);
