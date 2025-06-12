@@ -13,7 +13,7 @@ Backend Implementation Checklist
 
 2. DynamoDB Table Considerations
 -------------------------------
-[ ] Confirm the table name used in Lambda (`process.env.TABLE_NAME`) matches your actual table
+[x] Confirm the table name used in Lambda (`process.env.TABLE_NAME`) matches your actual table
 [ ] Ensure the primary key (e.g. userId, bookId) is sufficient for identifying each record
 [ ] (Optional) Add a GSI if you plan to query/filter by email, loanerName, or loanDate
 
